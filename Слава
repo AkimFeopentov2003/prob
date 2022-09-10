@@ -1,0 +1,116 @@
+#include <iostream>
+#include <math.h>
+
+class reader {
+    int a, b, c;
+public:
+    void read() {
+        std::cout << "Введите три числа через пробел, коэффициенты a,b,c \n";
+        std::cin >> a >> b >> c;
+    }
+
+    int get_a() {
+        return a;
+    }
+
+    int get_b() {
+        return b;
+    }
+
+    int get_c() {
+        return c;
+    }
+};
+
+class equation {
+private:
+    int a;
+    int b;
+    int c;
+public:
+    equation(reader elem) {
+        a = elem.get_a();
+        b = elem.get_b();
+        c = elem.get_c();
+    }
+
+    int get_a() {
+        return a;
+    }
+
+    int get_b() {
+        return b;
+    }
+
+    int get_c() {
+        return c;
+    }
+    //int Set();
+};
+
+class solver {
+    double x1, x2;
+    char flag;
+public:
+    equation ur;
+    void roots();
+    double get_x1(){
+        return x1;
+    }
+    double get_x2(){
+        return x2;
+    }
+    double get_flag(){
+        return flag;
+    }
+};
+
+void solver::roots() {
+    int d = pow(ur.get_b(), 2) - 4 * ur.get_a() * ur.get_c();
+    if (d < 0) {
+        flag = 'N';
+    } else if (d == 0) {
+        flag = 'O';
+        x1 = -(ur.get_b() / (2 * ur.get_a()));
+    } else {
+        flag = 'T';
+        x1 = (-ur.get_b() + sqrt(d)) / (2 * ur.get_a());
+        x2 = (-ur.get_b() - sqrt(d)) / (2 * ur.get_a());
+    }
+}
+
+class writer {
+public:
+    solver ur;
+    void write();
+};
+
+void writer::write() {
+    if(ur.get_flag()=='N'){
+        std::cout<<"Нет решений \n";
+    }
+    else if(ur.get_flag()=='O') {
+        std::cout << "Решение x1=" << ur.get_x1() << "\n";
+    }
+    else{
+        std::cout<<"Решение  x1="<< ur.get_x1()<<" x2="<<ur.get_x2()<<"\n";
+    }
+}
+class early_exit {
+public:
+    void write();
+};
+
+void early_exit::write() {
+    int exiter=0;
+    while (exiter!='1'){
+        early_exit(writer);
+        std::cout<<"Для продолжения нажмите 1, выход любая другая клавиша \n";
+        std::cin>>exiter;
+    }
+    exit(0);
+}
+
+int main() {
+   early_exit();
+}
